@@ -47,7 +47,7 @@ It supports both callback functions and evaluation-based criteria for decision-m
   - このメソッドは定期的(一般に数十ミリ秒以内)に繰り返し呼び出される必要があります。 This method must be called periodically (usually within a few tens of milliseconds).
   - このメソッドが呼び出される箇所が一箇所である必要はありません。 It does not need to be called from a single location.
 
-### bool isOccurred(Event type)
+### bool hasOccurred(Event type)
   - 指定したイベントが発生したかどうかを真偽値で返します。 Returns a boolean value indicating whether the specified event has occurred.
   - イベントが発生したと判定されてから次にupdate()メソッドが呼び出されるまでの間trueになります。 It returns true from the moment the event is determined to have occurred until the next update() method is called.
     - type: 発生したか調べるイベントのタイプを指定します。 Specifies the type of event to check for occurrence.
