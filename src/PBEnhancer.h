@@ -54,7 +54,7 @@ private:
     bool isHandled_;           //判定されたかどうか
     bool isDoubleClickWait_;   //ダブルクリック待ちかどうか
 
-    byte isOccurred_;
+    byte hasOccurred_;
 
     CallbackFunc callbacks_[8];
 };

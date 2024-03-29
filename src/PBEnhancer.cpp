@@ -4,7 +4,7 @@
 //public=============================================================================
 
 PBEnhancer::PBEnhancer(uint8_t pin, uint8_t mode, uint32_t longThreshold, uint32_t doubleThreshold)
- : pin_(pin), mode_(mode), longThreshold_(longThreshold), doubleThreshold_(doubleThreshold), pressTime_(0), releaseTime_(0), isPressBak_(false), isHandled_(false), isDoubleClickWait_(false), isOccurred_(0) {
+ : pin_(pin), mode_(mode), longThreshold_(longThreshold), doubleThreshold_(doubleThreshold), pressTime_(0), releaseTime_(0), isPressBak_(false), isHandled_(false), isDoubleClickWait_(false), hasOccurred_(0) {
     pinMode(pin_, mode_);
 
     //コールバック配列の初期化
@@ -20,7 +20,7 @@ void PBEnhancer::registerCallback(Event type, CallbackFunc func) { callbacks_[ge
 void PBEnhancer::removeCallback(Event type) { registerCallback(type, nullptr); }
 
 void PBEnhancer::update() {
-    isOccurred_ = 0;
+    hasOccurred_ = 0;
 
     bool isPress = (mode_ == INPUT_PULLUP) ? !digitalRead(pin_) : digitalRead(pin_);
     uint32_t now = millis();
@@ -31,7 +31,7 @@ void PBEnhancer::update() {
     isPressBak_ = isPress; //前回の値を更新
 }
 
-bool PBEnhancer::hasOccurred(Event type) const { return isOccurred_ & (1 << getIndex(type)); }
+bool PBEnhancer::hasOccurred(Event type) const { return hasOccurred_ & (1 << getIndex(type)); }
 
 //private============================================================================
 
@@ -86,7 +86,7 @@ void PBEnhancer::onFallingEdge(uint32_t now) {
 
 //コールバック関数を呼び出す
 void PBEnhancer::invoke(Event type) {
-    isOccurred_ |= (1 << index);
+    hasOccurred_ |= (1 << index);
 
     uint8_t index = getIndex(type);
     if (callbacks_[index] != nullptr) { callbacks_[index](); }
