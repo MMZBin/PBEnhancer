@@ -83,7 +83,7 @@ void setup() {
 
 void loop() {
   //You can also confirm using the isOccurred() method without registering a callback function.
-  if (pb.isOccurred(Event::DOUBLE)) {
+  if (pb.hasOccurred(Event::DOUBLE)) {
     Serial.println("Double clicked!");
   }
 
