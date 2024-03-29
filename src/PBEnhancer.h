@@ -27,7 +27,7 @@ public:
 
     void update();  //状態を更新する
 
-    bool isOccurred(Event type) const;
+    bool hasOccurred(Event type) const;
 
 private:
     void onPress(uint32_t now);

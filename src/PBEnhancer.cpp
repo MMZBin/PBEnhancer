@@ -31,7 +31,7 @@ void PBEnhancer::update() {
     isPressBak_ = isPress; //前回の値を更新
 }
 
-bool PBEnhancer::isOccurred(Event type) const { return isOccurred_ & (1 << getIndex(type)); }
+bool PBEnhancer::hasOccurred(Event type) const { return isOccurred_ & (1 << getIndex(type)); }
 
 //private============================================================================
 
@@ -86,10 +86,10 @@ void PBEnhancer::onFallingEdge(uint32_t now) {
 
 //コールバック関数を呼び出す
 void PBEnhancer::invoke(Event type) {
+    isOccurred_ |= (1 << index);
+
     uint8_t index = getIndex(type);
     if (callbacks_[index] != nullptr) { callbacks_[index](); }
-
-    isOccurred_ |= (1 << index);
 }
 
 uint8_t PBEnhancer::getIndex(Event type) const { return static_cast<uint8_t>(type); }
