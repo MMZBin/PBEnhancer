@@ -2,8 +2,10 @@ This library uses English that has been machine-translated from Japanese.
 
 # PBEnhancer
 このライブラリはタクトスイッチの制御を簡単にするためのものです。
+コールバック関数と評価式による判定の両方に対応しています。
 
 This library is designed to simplify the control of tactile switches.
+It supports both callback functions and evaluation-based criteria for decision-making.
 
 ## 機能 Functions
 
