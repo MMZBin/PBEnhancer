@@ -86,9 +86,9 @@ void PBEnhancer::onFallingEdge(uint32_t now) {
 
 //コールバック関数を呼び出す
 void PBEnhancer::invoke(Event type) {
-    hasOccurred_ |= (1 << index);
-
     uint8_t index = getIndex(type);
+
+    hasOccurred_ |= (1 << index);
     if (callbacks_[index] != nullptr) { callbacks_[index](); }
 }
 
