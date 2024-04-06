@@ -30,7 +30,7 @@ public:
     using CallbackFunc = void (*)();
 
     //イベントの種類
-    enum class Event {
+    enum class Event : uint8_t {
         SINGLE,       //短押し
         LONG,         //長押し
         DOUBLE,       //ダブルクリック
