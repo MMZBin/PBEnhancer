@@ -110,11 +110,6 @@ void PBEnhancer::onFallingEdge(const uint32_t now) {
     isDoubleClickWait_ = !isLongPressWait_; //すでに処理されていれば待たない
 }
 
-void PBEnhancer::emit(const Event type) {
-    uint8_t index = static_cast<uint8_t>(type);
-    hasOccurred_ |= (1u << index);
-}
-
 //コールバック関数を呼び出す
 void PBEnhancer::invoke() const {
     for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {

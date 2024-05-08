@@ -58,7 +58,10 @@ private:
     void onRisingEdge(const uint32_t now);
     void onFallingEdge(const uint32_t now);
 
-    void emit(const Event type);
+    inline void emit(const Event type) {
+        uint8_t index = static_cast<uint8_t>(type);
+        hasOccurred_ |= (1u << index);
+    }
     void invoke() const; // コールバック関数を呼び出す
 
 
