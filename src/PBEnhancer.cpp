@@ -113,9 +113,7 @@ void PBEnhancer::onFallingEdge(const uint32_t now) {
 //コールバック関数を呼び出す
 void PBEnhancer::invoke() const {
     for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {
-        Event type = static_cast<Event>(i);
-
-        if ((hasOccurred(type)) && (callbacks_[i] != nullptr)) {
+        if ((hasOccurred(static_cast<Event>(i))) && (callbacks_[i] != nullptr)) {
             callbacks_[i]();
         }
     }
