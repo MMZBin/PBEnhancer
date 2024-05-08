@@ -116,7 +116,7 @@ void PBEnhancer::emit(const Event type) {
 }
 
 //コールバック関数を呼び出す
-void PBEnhancer::invoke() {
+void PBEnhancer::invoke() const {
     for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {
         Event type = static_cast<Event>(i);
 

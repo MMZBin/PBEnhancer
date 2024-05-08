@@ -59,7 +59,7 @@ private:
     void onFallingEdge(const uint32_t now);
 
     void emit(const Event type);
-    void invoke(); // コールバック関数を呼び出す
+    void invoke() const; // コールバック関数を呼び出す
 
 
     const uint8_t PIN, PIN_MODE, LONG_THRESHOLD, DOUBLE_THRESHOLD;
