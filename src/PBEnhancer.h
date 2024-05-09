@@ -62,7 +62,8 @@ private:
     void invoke() const; // コールバック関数を呼び出す
 
 
-    const uint8_t PIN, PIN_MODE, LONG_THRESHOLD, DOUBLE_THRESHOLD;
+    const uint8_t PIN, PIN_MODE;
+    const uint32_t LONG_THRESHOLD, DOUBLE_THRESHOLD;
     static constexpr uint8_t NUM_OF_EVENTS = 8;
 
     uint32_t pressTime_, releaseTime_;
