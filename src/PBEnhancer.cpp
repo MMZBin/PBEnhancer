@@ -65,59 +65,6 @@ bool PBEnhancer::hasOccurred(const Event type) const { return hasOccurred_ & (1 
 
 /* private */
 
-void PBEnhancer::onPress(const uint32_t now) {
-    emit(Event::PRESSING);
-
-    //立ち上がりエッジのときの処理
-    if (!isPressBak_) { onRisingEdge(now); }
-
-    //長押し判定の時間を過ぎたら
-    if ((!isHandled_) && (now - pressTime_ > LONG_THRESHOLD)) {
-        emit(Event::LONG);
-        isHandled_ = true;
-    }
-}
-
-void PBEnhancer::onRelease(const uint32_t now) {
-    emit(Event::RELEASING);
-
-    //立ち下がりエッジのときの処理
-    if (isPressBak_) { onFallingEdge(now); }
-
-    //時間を過ぎた&ダブルクリック待ち(再度押されなかったとき)
-    if ((isDoubleClickWait_) && (now - releaseTime_ > DOUBLE_THRESHOLD)) {
-        emit(Event::SINGLE);
-        isDoubleClickWait_ = false;
-    }
-
-    isHandled_ = false;
-}
-
-void PBEnhancer::onRisingEdge(const uint32_t now) {
-    emit(Event::RISING_EDGE);
-    emit(Event::CHANGE_INPUT);
-
-    pressTime_ = now; //押し始めた時間を記録
-    lastTransTime_ = now;
-
-    //未処理&ダブルクリック待ちのとき
-    if ((isDoubleClickWait_) && (!isHandled_)) {
-        emit(Event::DOUBLE);
-        isHandled_ = true;
-    }
-
-    isDoubleClickWait_ = false;
-}
-
-void PBEnhancer::onFallingEdge(const uint32_t now) {
-    emit(Event::FALLING_EDGE);
-    emit(Event::CHANGE_INPUT);
-
-    releaseTime_ = now; //離し始めた時間を記録
-    lastTransTime_ = now;
-    isDoubleClickWait_ = !isHandled_; //すでに処理されていれば待たない
-}
-
 //コールバック関数を呼び出す
 void PBEnhancer::invoke() const {
     for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {
