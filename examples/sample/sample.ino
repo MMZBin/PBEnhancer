@@ -1,3 +1,27 @@
+/*
+  使用できるイベントは
+  ・単押し            (SINGLE)
+  ・長押し            (LONG)
+  ・ダブルクリック     (DOUBLE)
+  ・立ち上がりエッジ   (RISING_EDGE)
+  ・立ち下がりエッジ   (FALLING_EDGE)
+  ・状態変化          (CHANGE_INPUT)
+  ・押している間ずっと (PRESSING)
+  ・話している間ずっと (RELEASING)
+  の8つです。
+*/
+/*
+  The available events are:
+  -Single press           (SINGLE)
+  -Long press             (LONG)
+  -Double click           (DOUBLE)
+  -Rising edge            (RISING_EDGE)
+  -Falling edge           (FALLING_EDGE)
+  -Input change           (CHANGE_INPUT)
+  -Pressing continuously  (PRESSING)
+  -Releasing continuously (RELEASING)
+*/
+
 #include <PBEnhancer.h>
 
                                   //'PBEnhancer::Event'を'Event'と略せるように登録しています。不要な場合は省略できます。
@@ -5,6 +29,15 @@ using Event = PBEnhancer::Event; //To define for abbreviation of identifiers. (I
 
                                               //PBEnhancerオブジェクトを生成します。第三引数以降は省略可能です。
 PBEnhancer pb(2, INPUT_PULLUP, 200, 100, 20); //Instantiate a PBEnhancer object. Arguments beyond the third one are optional.
+
+//([ピン番号], [入力モード(INPUTかINPUT_PULLUP)], 長押し時間, ダブルクリックの間隔, デバウンス(チャタリング防止)時間)の順番で指定してください。
+//Please specify in the following order: (pin number, input mode (INPUT or INPUT_PULLUP), long press duration, double-click interval, debounce time).
+
+/*
+  //このように書くこともできます。
+  //You can also write it like this.
+  PBEnhancer pb(2, INPUT_PULLUP);
+*/
 
 const uint8_t LED = 13;
 
