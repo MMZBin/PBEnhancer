@@ -20,7 +20,7 @@ It supports both callback functions and evaluation-based criteria for decision-m
       - PRESSING
       - RELEASING
 
-#### PBEnhancer(uint8_t pin, uint8_t mode, uint32_t longThreshold, uint32_t doubleThreshold)
+#### PBEnhancer(uint8_t pin, uint8_t mode, uint32_t longThreshold, uint32_t doubleThreshold, uint32_t debounceTime)
   - PBEnhancerオブジェクトを生成します。 Generates a PBEnhancer object.
     - pin: イベントの対象となるピン番号を指定します。 Specifies the pin number targeted for events.
     - mode: ピンの使用モードを設定します。 Sets the pin's operating mode.
@@ -30,6 +30,9 @@ It supports both callback functions and evaluation-based criteria for decision-m
       - 長押しだと判定する時間をミリ秒単位で設定します。デフォルトでは500です。 Sets the time threshold in milliseconds to determine a long press. Default is 500.
     - doubleThreshold (省略可) (optional)
       - ダブルクリックだと判定する時間をミリ秒単位で設定します。デフォルトでは100です。 Sets the time threshold in milliseconds to determine a double click. Default is 100.
+    - debounceTime (省略可) (optional)
+      - デバウンス時間(不安定な入力の変化を無視する時間)をミリ秒単位で設定します。デフォルトでは20です。 Set the debounce time (the time to ignore changes in unstable inputs) in milliseconds. The default is 20.
+
 #### uint8_t getPin()
   - 登録されているピンを返します。 Returns the registered pin.
 
