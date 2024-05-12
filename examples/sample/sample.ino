@@ -1,16 +1,16 @@
 #include <PBEnhancer.h>
 
-                                  //'PBEnhancer::Event'を'Event::'と略せるように登録しています。不要な場合は省略できます。
+                                  //'PBEnhancer::Event'を'Event'と略せるように登録しています。不要な場合は省略できます。
 using Event = PBEnhancer::Event; //To define for abbreviation of identifiers. (It can be specified in the form like PBEnhancer::Event::SINGLE without writing this.)
 
-                                          //PBEnhancerオブジェクトを生成します。3つ目(長押し判定時間)と4つ目(ダブルクリック判定時間)は任意です。
-PBEnhancer pb(2, INPUT_PULLUP, 200, 100); //Create a PBEnhancer object. The third and fourth arguments are optional.
+                                              //PBEnhancerオブジェクトを生成します。第三引数以降は省略可能です。
+PBEnhancer pb(2, INPUT_PULLUP, 200, 100, 20); //Instantiate a PBEnhancer object. Arguments beyond the third one are optional.
 
 const uint8_t LED = 13;
 
 //LEDのON/OFFを切り替える関数です。今回の例では長押しで呼び出されます。
 //The function to toggle LED on and off.
-void changeLed() {
+void toggleLed() {
   static bool state = false;
 
   digitalWrite(LED, state);
@@ -22,8 +22,8 @@ void setup() {
 
   pinMode(LED, OUTPUT);
 
-                                                //イベントを指定してコールバック関数を登録します。
-  pb.registerCallback(Event::LONG, changeLed); //Registering a callback function specifying the type of event.
+                                               //イベントを指定してコールバック関数を登録します。
+  pb.registerCallback(Event::LONG, toggleLed); //Registering a callback function specifying the type of event.
 
 }
 
