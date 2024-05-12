@@ -41,7 +41,7 @@ public:
         RELEASING     //離している間毎回
     };
 
-    PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold=500, const uint32_t doubleThreshold=100);
+    PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold=500, const uint32_t doubleThreshold=100, const uint32_t debounceTime=10);
 
     uint8_t getPin() const;
 
@@ -58,17 +58,17 @@ private:
     void onRisingEdge(const uint32_t now);
     void onFallingEdge(const uint32_t now);
 
-    inline void emit(const Event type) { hasOccurred_ |= (1u << static_cast<uint8_t>(type)); }
+    inline void emit(const Event type) { hasOccurred_ |= (1 << static_cast<uint8_t>(type)); }
     void invoke() const; // コールバック関数を呼び出す
 
 
     const uint8_t PIN, PIN_MODE;
-    const uint32_t LONG_THRESHOLD, DOUBLE_THRESHOLD;
+    const uint32_t LONG_THRESHOLD, DOUBLE_THRESHOLD, DEBOUNCE_TIME;
     static constexpr uint8_t NUM_OF_EVENTS = 8;
 
-    uint32_t pressTime_, releaseTime_;
+    uint32_t pressTime_, releaseTime_, lastTransTime_;
 
-    bool isPressBak_, isLongPressWait_, isDoubleClickWait_;
+    bool isPressBak_, isHandled_, isDoubleClickWait_;
 
     byte hasOccurred_;
 

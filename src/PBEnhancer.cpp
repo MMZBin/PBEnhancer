@@ -27,8 +27,10 @@
 
 /* public */
 
-PBEnhancer::PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold, const uint32_t doubleThreshold)
- : PIN(pin), PIN_MODE(mode), LONG_THRESHOLD(longThreshold), DOUBLE_THRESHOLD(doubleThreshold), pressTime_(0), releaseTime_(0), isPressBak_(false), isLongPressWait_(false), isDoubleClickWait_(false), hasOccurred_(0) {
+PBEnhancer::PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold, const uint32_t doubleThreshold, const uint32_t debounceTime)
+ : PIN(pin), PIN_MODE(mode),
+    LONG_THRESHOLD(longThreshold), DOUBLE_THRESHOLD(doubleThreshold), DEBOUNCE_TIME(debounceTime),
+    pressTime_(0), releaseTime_(0), lastTransTime_(0), isPressBak_(false), isHandled_(false), isDoubleClickWait_(false), hasOccurred_(0) {
     pinMode(PIN, PIN_MODE);
 
     //コールバック配列の初期化
@@ -49,15 +51,17 @@ void PBEnhancer::update() {
     bool isPress = (PIN_MODE == INPUT_PULLUP) ? !digitalRead(PIN) : digitalRead(PIN);
     uint32_t now = millis();
 
-    if (isPress) { onPress(now); }
-    else { onRelease(now); }
+    if (now - lastTransTime_ >= DEBOUNCE_TIME) {
+        if (isPress) { onPress(now); }
+        else { onRelease(now); }
+    }
 
     isPressBak_ = isPress; //前回の値を更新
 
     invoke();
 }
 
-bool PBEnhancer::hasOccurred(const Event type) const { return hasOccurred_ & (1u << static_cast<uint8_t>(type)); }
+bool PBEnhancer::hasOccurred(const Event type) const { return hasOccurred_ & (1 << static_cast<uint8_t>(type)); }
 
 /* private */
 
@@ -68,9 +72,9 @@ void PBEnhancer::onPress(const uint32_t now) {
     if (!isPressBak_) { onRisingEdge(now); }
 
     //長押し判定の時間を過ぎたら
-    if ((!isLongPressWait_) && (now - pressTime_ > LONG_THRESHOLD)) {
+    if ((!isHandled_) && (now - pressTime_ > LONG_THRESHOLD)) {
         emit(Event::LONG);
-        isLongPressWait_ = true;
+        isHandled_ = true;
     }
 }
 
@@ -86,7 +90,7 @@ void PBEnhancer::onRelease(const uint32_t now) {
         isDoubleClickWait_ = false;
     }
 
-    isLongPressWait_ = false;
+    isHandled_ = false;
 }
 
 void PBEnhancer::onRisingEdge(const uint32_t now) {
@@ -94,12 +98,15 @@ void PBEnhancer::onRisingEdge(const uint32_t now) {
     emit(Event::CHANGE_INPUT);
 
     pressTime_ = now; //押し始めた時間を記録
+    lastTransTime_ = now;
 
     //未処理&ダブルクリック待ちのとき
-    if ((isDoubleClickWait_) && (!isLongPressWait_)) {
+    if ((isDoubleClickWait_) && (!isHandled_)) {
         emit(Event::DOUBLE);
-        isLongPressWait_ = true;
+        isHandled_ = true;
     }
+
+    isDoubleClickWait_ = false;
 }
 
 void PBEnhancer::onFallingEdge(const uint32_t now) {
@@ -107,7 +114,8 @@ void PBEnhancer::onFallingEdge(const uint32_t now) {
     emit(Event::CHANGE_INPUT);
 
     releaseTime_ = now; //離し始めた時間を記録
-    isDoubleClickWait_ = !isLongPressWait_; //すでに処理されていれば待たない
+    lastTransTime_ = now;
+    isDoubleClickWait_ = !isHandled_; //すでに処理されていれば待たない
 }
 
 //コールバック関数を呼び出す
