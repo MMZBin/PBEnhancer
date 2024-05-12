@@ -62,14 +62,3 @@ void PBEnhancer::update() {
 }
 
 bool PBEnhancer::hasOccurred(const Event type) const { return hasOccurred_ & (1 << static_cast<uint8_t>(type)); }
-
-/* private */
-
-//コールバック関数を呼び出す
-void PBEnhancer::invoke() const {
-    for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {
-        if ((hasOccurred(static_cast<Event>(i))) && (callbacks_[i] != nullptr)) {
-            callbacks_[i]();
-        }
-    }
-}

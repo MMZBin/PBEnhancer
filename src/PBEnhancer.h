@@ -107,7 +107,14 @@ private:
     }
 
     inline void emit(const Event type) { hasOccurred_ |= (1 << static_cast<uint8_t>(type)); }
-    void invoke() const; // コールバック関数を呼び出す
+
+    inline void invoke() const {
+        for (uint8_t i = 0; i < NUM_OF_EVENTS; i++) {
+            if ((hasOccurred(static_cast<Event>(i))) && (callbacks_[i] != nullptr)) {
+                callbacks_[i]();
+            }
+        }
+    }
 
 
     const uint8_t PIN, PIN_MODE;
