@@ -70,7 +70,7 @@ private:
 
     bool isPressBak_, isHandled_, isDoubleClickWait_;
 
-    byte hasOccurred_;
+    byte hasOccurred_; //0番目のビットが短押し,1番目のビットが長押し...のように対応している
 
     CallbackFunc callbacks_[NUM_OF_EVENTS];
 };
