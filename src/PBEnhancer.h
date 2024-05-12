@@ -41,7 +41,7 @@ public:
         RELEASING     //離している間毎回
     };
 
-    PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold=500, const uint32_t doubleThreshold=100, const uint32_t debounceTime=10);
+    PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold=500, const uint32_t doubleThreshold=100, const uint32_t debounceTime=20);
 
     uint8_t getPin() const;
 
