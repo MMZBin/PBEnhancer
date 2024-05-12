@@ -22,6 +22,15 @@
   -Releasing continuously (RELEASING)
 */
 
+/*
+  "PBEnhancer::Event::[イベント名]"の形でイベントを指定します。 例:"PBEnhancer::Event::SINGLE"
+  最初にusing Event = PBEnhancer::Event;と書くと、"Event::SINGLE"のように"PBEnhancer::"の部分を省略できます。
+*/
+/*
+  Specify the events in the format "PBEnhancer::Event::[event name]". For example: "PBEnhancer::Event::SINGLE".
+  By writing "using Event = PBEnhancer::Event;" first, you can then abbreviate "PBEnhancer::" to just "Event::".
+*/
+
 #include <PBEnhancer.h>
 
                                   //'PBEnhancer::Event'を'Event'と略せるように登録しています。不要な場合は省略できます。
