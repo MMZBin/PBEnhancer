@@ -7,7 +7,7 @@
   ・立ち下がりエッジ   (FALLING_EDGE)
   ・状態変化          (CHANGE_INPUT)
   ・押している間ずっと (PRESSING)
-  ・話している間ずっと (RELEASING)
+  ・離している間ずっと (RELEASING)
   の8つです。
 */
 /*
