@@ -30,7 +30,7 @@
 PBEnhancer::PBEnhancer(const uint8_t pin, const uint8_t mode, const uint32_t longThreshold, const uint32_t doubleThreshold, const uint32_t debounceTime)
  : PIN(pin), PIN_MODE(mode),
     LONG_THRESHOLD(longThreshold), DOUBLE_THRESHOLD(doubleThreshold), DEBOUNCE_TIME(debounceTime),
-    pressTime_(0), releaseTime_(0), lastTransTime_(0), isPressBak_(false), isHandled_(false), isDoubleClickWait_(false), hasOccurred_(0) {
+    lastTransTime_(0), isPressBak_(false), isHandled_(false), isDoubleClickWait_(false), hasOccurred_(0) {
     pinMode(PIN, PIN_MODE);
 
     //コールバック配列の初期化

@@ -60,7 +60,7 @@ private:
         if (!isPressBak_) { onRisingEdge(now); }
 
         //長押し判定の時間を過ぎたら
-        if ((!isHandled_) && (now - pressTime_ > LONG_THRESHOLD)) {
+        if ((!isHandled_) && (now - lastTransTime_ > LONG_THRESHOLD)) {
             emit(Event::LONG);
             isHandled_ = true;
         }
@@ -73,7 +73,7 @@ private:
         if (isPressBak_) { onFallingEdge(now); }
 
         //時間を過ぎた&ダブルクリック待ち(再度押されなかったとき)
-        if ((isDoubleClickWait_) && (now - releaseTime_ > DOUBLE_THRESHOLD)) {
+        if ((isDoubleClickWait_) && (now - lastTransTime_ > DOUBLE_THRESHOLD)) {
             emit(Event::SINGLE);
             isDoubleClickWait_ = false;
         }
@@ -85,8 +85,7 @@ private:
         emit(Event::RISING_EDGE);
         emit(Event::CHANGE_INPUT);
 
-        pressTime_ = now; //押し始めた時間を記録
-        lastTransTime_ = now;
+        lastTransTime_ = now; //押し始めた時間を記録
 
         //未処理&ダブルクリック待ちのとき
         if ((isDoubleClickWait_) && (!isHandled_)) {
@@ -101,8 +100,7 @@ private:
         emit(Event::FALLING_EDGE);
         emit(Event::CHANGE_INPUT);
 
-        releaseTime_ = now; //離し始めた時間を記録
-        lastTransTime_ = now;
+        lastTransTime_ = now; //離し始めた時間を記録
         isDoubleClickWait_ = !isHandled_; //すでに処理されていれば待たない
     }
 
@@ -121,7 +119,7 @@ private:
     const uint32_t LONG_THRESHOLD, DOUBLE_THRESHOLD, DEBOUNCE_TIME;
     static constexpr uint8_t NUM_OF_EVENTS = 8;
 
-    uint32_t pressTime_, releaseTime_, lastTransTime_;
+    uint32_t lastTransTime_;
 
     bool isPressBak_, isHandled_, isDoubleClickWait_;
 
